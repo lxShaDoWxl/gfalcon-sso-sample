@@ -15,7 +15,7 @@ $ mysql -u $USER -p -D gfalcon < create_defaultdata.sql
 $ cd ../../../../../../
 $ bower install
 $ go run test/init_data.go --dbhost 'user:password@unix(/tmp/mysql.sock)/gfalcon?parseTime=true'
-$ go run app/server.go --dbhost 'user:password@unix(/tmp/mysql.sock)/gfalcon?parseTime=true'
+$ go run app/server.go --dbhost 'user:password@unix(/tmp/mysql.sock)/gfalcon?parseTime=true' --allowed-host 'saas.m0cchi.net'
 ```
 
 # Run this sample
