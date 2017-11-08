@@ -17,13 +17,13 @@
   branch = "master"
   name = "github.com/m0cchi/gfalcon"
   packages = [".","model"]
-  revision = "c8dfa50a79c3f68684385f88ae4d2936565e07fc"
+  revision = "1a76bc4c29e3101583ac2dfe3699cac09b79a643"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
   packages = ["bcrypt","blowfish"]
-  revision = "ca1fcd4ab4c10bc58852a894bcf195fab2229efe"
+  revision = "6a293f2d4b14b8e6d3f0539e383f6d0d30fce3fd"
 
 [solve-meta]
   analyzer-name = "dep"
