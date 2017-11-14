@@ -7,20 +7,40 @@ import (
 	"github.com/m0cchi/gfalcon/model"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 var db *sqlx.DB
 
+func writeErrorPage(w http.ResponseWriter, err error) {
+	fmt.Fprintf(w, "%v\n", err)
+	fmt.Fprintf(w, "SignIn Page --> https://saas.m0cchi.net/\n")
+	fmt.Fprintf(w, "Team/ID/Password: gfalcon/gfadmin/secret")
+}
+
 func handle(w http.ResponseWriter, r *http.Request) {
-	cookie, err := r.Cookie("gfalcon.session")
+	sessionID, err := r.Cookie("gfalcon.session")
 	if err != nil {
-		fmt.Fprintf(w, "%v\n", err)
-		fmt.Fprintf(w, "SignIn Page --> https://saas.m0cchi.net/\n")
-		fmt.Fprintf(w, "Team/ID/Password: gfalcon/gfadmin/secret")
+		writeErrorPage(w, err)
 		return
 	}
-	value := cookie.Value
-	session, err := model.GetSession(db, value)
+	userIID, err := r.Cookie("gfalcon.iid")
+	if err != nil {
+		writeErrorPage(w, err)
+		return
+	}
+	IID, err := strconv.ParseUint(userIID.Value, 10, 32)
+	if err != nil {
+		writeErrorPage(w, err)
+		return
+	}
+
+	session, err := model.GetSession(db, uint32(IID), sessionID.Value)
+	if err != nil {
+		writeErrorPage(w, err)
+		return
+	}
+
 	if err = session.Validate(); err != nil {
 		fmt.Fprintf(w, "%v", err)
 		return
